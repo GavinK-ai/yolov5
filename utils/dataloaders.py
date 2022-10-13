@@ -307,14 +307,13 @@ class LoadWebcam:  # for inference
     def __len__(self):
         return 0
 
-
 class LoadStreams:
     # YOLOv5 streamloader, i.e. `python detect.py --source 'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP streams`
-    def __init__(self, sources='streams.txt', img_size=640, stride=32, auto=True, transforms=None):
+    def __init__(self, sources='streams.txt', img_size=640, stride=32, auto=True, transforms=None, detect_mode=True):
         self.mode = 'stream'
         self.img_size = img_size
         self.stride = stride
-
+        self.detect_mode = True
         if os.path.isfile(sources):
             with open(sources) as f:
                 sources = [x.strip() for x in f.read().strip().splitlines() if len(x.strip())]
@@ -348,7 +347,11 @@ class LoadStreams:
             LOGGER.info(f"{st} Success ({self.frames[i]} frames {w}x{h} at {self.fps[i]:.2f} FPS)")
             self.threads[i].start()
         LOGGER.info('')  # newline
-
+        if detect_mode:
+            pass
+        else:
+            cap.release()
+            cv2.destroyAllWindows
         # check for common shapes
         s = np.stack([letterbox(x, img_size, stride=stride, auto=auto)[0].shape for x in self.imgs])
         self.rect = np.unique(s, axis=0).shape[0] == 1  # rect inference if all shapes equal
@@ -397,6 +400,11 @@ class LoadStreams:
     def __len__(self):
         return len(self.sources)  # 1E12 frames = 32 streams at 30 FPS for 30 years
 
+    # def close(self):
+    #     cap = cv2.VideoCapture(self.sources)
+    #     cap.release()
+    #     cv2.destroyAllWindows()
+        
 
 def img2label_paths(img_paths):
     # Define label paths as a function of image paths
