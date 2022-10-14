@@ -349,6 +349,7 @@ class LoadStreams:
         LOGGER.info('')  # newline
         if detect_mode:
             print('test branch')
+            print('testing 1')
             pass
         else:
             cap.release()
