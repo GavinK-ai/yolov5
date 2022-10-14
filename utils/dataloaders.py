@@ -348,6 +348,7 @@ class LoadStreams:
             self.threads[i].start()
         LOGGER.info('')  # newline
         if detect_mode:
+            print('test branch')
             pass
         else:
             cap.release()
