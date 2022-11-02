@@ -313,7 +313,7 @@ class LoadStreams:
         self.mode = 'stream'
         self.img_size = img_size
         self.stride = stride
-        self.detect_mode = True
+        # self.detect_mode = True
         if os.path.isfile(sources):
             with open(sources) as f:
                 sources = [x.strip() for x in f.read().strip().splitlines() if len(x.strip())]
@@ -347,11 +347,11 @@ class LoadStreams:
             LOGGER.info(f"{st} Success ({self.frames[i]} frames {w}x{h} at {self.fps[i]:.2f} FPS)")
             self.threads[i].start()
         LOGGER.info('')  # newline
-        if detect_mode:
-            pass
-        else:
-            cap.release()
-            cv2.destroyAllWindows()
+        # if detect_mode:
+        #     pass
+        # else:
+        #     cap.release()
+        #     cv2.destroyAllWindows()
         # check for common shapes
         s = np.stack([letterbox(x, img_size, stride=stride, auto=auto)[0].shape for x in self.imgs])
         self.rect = np.unique(s, axis=0).shape[0] == 1  # rect inference if all shapes equal
@@ -1162,7 +1162,7 @@ class LoadStreams2:
         self.mode = 'stream'
         self.img_size = img_size
         self.stride = stride
-        self.detect_mode = True
+        # self.detect_mode = True
         if os.path.isfile(sources):
             with open(sources) as f:
                 sources = [x.strip() for x in f.read().strip().splitlines() if len(x.strip())]
@@ -1196,11 +1196,11 @@ class LoadStreams2:
             LOGGER.info(f"{st} Success ({self.frames[i]} frames {w}x{h} at {self.fps[i]:.2f} FPS)")
             self.threads[i].start()
         LOGGER.info('')  # newline
-        if stream_mode:
-            pass
-        else:
-            cap.release()
-            cv2.destroyAllWindows()
+        # if stream_mode:
+        #     pass
+        # else:
+        #     cap.release()
+        #     cv2.destroyAllWindows()
         # check for common shapes
         s = np.stack([letterbox(x, img_size, stride=stride, auto=auto)[0].shape for x in self.imgs])
         self.rect = np.unique(s, axis=0).shape[0] == 1  # rect inference if all shapes equal
